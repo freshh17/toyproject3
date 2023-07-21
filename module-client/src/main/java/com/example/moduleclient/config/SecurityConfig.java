@@ -43,10 +43,13 @@ public class SecurityConfig {
 			.userDetailsService(memberService)
 			.tokenValiditySeconds(60 * 60 * 24 * 30));
 
-		http.logout(logout -> logout.permitAll().logoutUrl("/member/logout").logoutSuccessUrl("/member/login"));
+		http.logout(logout -> logout
+			.logoutUrl("/member/logout")
+			.logoutSuccessUrl("/member/login")
+			.invalidateHttpSession(true));
 
 		http.authorizeHttpRequests(auth -> auth
-			.requestMatchers("/member/login", "/member/join").permitAll()
+			.requestMatchers("/member/login", "/member/join", "/member/logout").permitAll()
 			.anyRequest().authenticated());
 
 		return http.build();

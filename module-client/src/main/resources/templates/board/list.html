@@ -51,7 +51,7 @@
           <p class="card-text" th:text="${board.nickname}"></p>
         </div>
         <div class="card-footer text-end">
-          <small class="text-muted" th:text="${board.createdAt}"></small>
+          <small class="text-muted" th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm')}"></small>
         </div>
       </div>
     </div>
