@@ -3,6 +3,7 @@ package com.example.moduleclient.member;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.moduleclient.constant.Category;
 import com.example.moduleclient.constant.ErrorCode;
 import com.example.moduleclient.exception.CustomException;
+import com.example.moduleclient.post.PostRepository;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -25,6 +28,8 @@ import lombok.extern.log4j.Log4j2;
 public class MemberService implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
+	private final PostRepository postRepository;
+	private final EntityManager entityManager;
 
 	public Member saveMember(Member member) {
 		validateDuplicateMember(member);
@@ -58,5 +63,13 @@ public class MemberService implements UserDetailsService {
 			.password(member.getPassword())
 			.authorities(authorities)
 			.build();
+	}
+
+	@Scheduled(fixedDelay = 60000)
+	@Transactional
+	public void scheduleMemberRoleUpdate() {
+		int result = memberRepository.updateMemberRole();
+
+		log.info("MemberRole Update Batch Result : " + result);
 	}
 }
