@@ -47,7 +47,7 @@
              height="180">
         <div class="card-body">
           <h5 class="card-title" th:text="${board.title}"></h5>
-          <p class="d-inline-block text-truncate" style="max-width: 100%;" th:text="${board.content}"></p>
+          <p class="d-inline-block text-truncate" style="max-width: 100%;" th:utext="${board.content}"></p>
           <p class="card-text" th:text="${board.nickname}"></p>
         </div>
         <div class="card-footer text-end">
