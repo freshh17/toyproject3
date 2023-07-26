@@ -118,10 +118,6 @@
     )Engine=InnoDB default charset=utf8mb4;
     ```
     
-    `thumbnail`은 이미지를 저장하기 위해 `blob`타입을 사용했습니다.
-    
-    `status`는 정상, 관리자가 숨김처리, 관리자가 블랙리스트 처리 할 때의 상태값을 넣는 컬럼입니다.
-    
     `reply_tb` (댓글 테이블)
     
     ```sql
@@ -139,10 +135,6 @@
     )Engine=InnoDB default charset=utf8mb4;
     ```
     
-    `parent_id`와 `step`은 댓글, 대댓글을 위한 컬럼입니다.
-    
-    `step`은 댓글일 경우 0, 대댓글일 경우 1 이런식으로 단계별로 증가되고 `parent_id`는 대댓글을 달았을 때 해당 댓글의 id를 저장합니다.
-    
     `declaration_tb` (게시글 신고 테이블)
     
     ```sql
@@ -156,10 +148,6 @@
       foreign key(post_id) references post_tb(id)
     )Engine=InnoDB default charset=utf8mb4;
     ```
-    
-    `reason_image`는 근거 이미지를 저장해야하므로 `blob` 타입을 사용했습니다.
-    
-    이미지 저장은 blob 타입 사용해서 DB에 직접 넣을지, 로컬을 서버라고 생각해서 로컬에 저장하고 DB에는 경로만 저장할지 논의가 필요해보입니다.
     
     ## API
     
