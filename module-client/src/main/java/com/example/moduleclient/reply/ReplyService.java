@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.moduleclient.constant.ErrorCode;
+import com.example.moduleclient.exception.CustomException;
 import com.example.moduleclient.member.Member;
 import com.example.moduleclient.member.MemberRepository;
 import com.example.moduleclient.post.Post;
@@ -20,7 +22,7 @@ public class ReplyService {
 	private final PostRepository postRepository;
 
 	public ReplyResponse.SaveDto saveReply(ReplyRequest.saveDto saveReqDto, String username) {
-		Member member = userRepository.findByUsername(username);
+		Member member = userRepository.findByUsername(username).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 		Post post = postRepository.findById(saveReqDto.getPostId()).orElseThrow();
 
 		Reply reply = replyRepository.save(saveReqDto.toEntity(post, member));
